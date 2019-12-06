@@ -12,7 +12,7 @@
 					for ($x = 1; $x <= $_REQUEST['numberofteeth']; $x++) {
 					    echo "Tooth: $x <br>";
 
-						echo("<div>Teeth:");
+						echo("<div>");
 			 			echo("<p>Quadrant:");
 			 			echo("<select name = 'quadrant[]'>");
 						  echo("<option value ='1'>1</option>");
