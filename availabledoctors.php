@@ -7,10 +7,10 @@
  <p>Doctor:
  <select name="VAT">
 <?php
-$host = "db.tecnico.ulisboa.pt";
-$user = "ist425473";
-$pass = "rfwz7043";
-$dsn = "mysql:host=$host;dbname=$user";
+                $host = "db.tecnico.ulisboa.pt";
+                $user = "ist425352";
+                $pass = "juob1180";
+                $dsn = "mysql:host=$host;dbname=$user";
 try
 {
 $connection = new PDO($dsn, $user, $pass);

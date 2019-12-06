@@ -3,8 +3,8 @@
 		<h3>Client's List</h3>
 		<?php
 			$host = "db.tecnico.ulisboa.pt";
-			$user = "ist425473";
-			$pass = "rfwz7043";
+			$user = "ist425352";
+			$pass = "juob1180";
 			$dsn = "mysql:host=$host;dbname=$user";
 			try
 			{

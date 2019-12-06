@@ -1,9 +1,9 @@
 <html>
 	<body>
 <?php
-	$host = "db.ist.utl.pt";
-	$user = "ist425203";
-	$pass = "cfbv3345";
+	$host = "db.tecnico.ulisboa.pt";
+	$user = "ist425352";
+	$pass = "juob1180";
 	$dsn = "mysql:host=$host;dbname=$user";
 
 	try
