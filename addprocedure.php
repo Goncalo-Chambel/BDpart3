@@ -25,18 +25,19 @@
 	$measure = $_REQUEST['measure'];
 
 
-	$sql =$connection->prepare("INSERT INTO procedure_in_consultation values('Dental Charting',:VAT_doctor, :date_timestamp, '')");
+	$sql_procedure =$connection->prepare("INSERT INTO procedure_in_consultation values(:_text,:VAT_doctor, :date_timestamp, '')");
 
-	if($sql == FALSE){
+	if($sql_procedure == FALSE){
 		$info = $connection->errorInfo();				
 		echo("<p>Error: {$info[2]}</p>");
 		exit();
 	}
-	$test = $sql->execute(array(
+	$test = $sql_procedure->execute(array(
+		":_text" => 'Dental Charting',
 		":VAT_doctor" => $VAT_doctor,
 		":date_timestamp" => $date_timestamp));
 
-	echo("<p>Row to be added: $sql</p>");
+	echo("<p>Row to be added:</p> <p>{$sql_procedure->queryString}</p>");
 	if($test == FALSE){
 		$info = $connection->errorInfo();
 		echo("<h3>This consultation already has one dental charting procedure</h3>");	
@@ -44,28 +45,32 @@
 		echo("<p>Error: {$info[2]}</p>");
 		exit();
 	}
+	else
+	{
+		echo("<p>A Procedure was succesfully inserted</p>");
+	}
 
 
 	for ($x = 0; $x < sizeof($_REQUEST['quadrant']); $x++) {
 
-	# $sql=connection->prepare("INSERT INTO procedure_charting VALUES('Dental Charting',:VAT_doctor, :date_timestamp, $quadrant[$x], $number[$x], '', $measure[$x])");
+	 	 $sql_measure=$connection->prepare("INSERT INTO procedure_charting VALUES(:_text,:VAT_doctor, :date_timestamp, :quadrant, :_number, :description, :measure)");
 
-	 	 $sql=connection->prepare("INSERT INTO procedure_charting VALUES('Dental Charting',:VAT_doctor, :date_timestamp, :quadrant, :_number, '', :measure)");
-
-		if($sql == FALSE){
+		if($sql_measure == FALSE){
 			$info = $connection->errorInfo();				
 			echo("<p>Error: {$info[2]}</p>");
 			exit();
 		}
 
-		$test = $sql->execute(array(
+		$test = $sql_measure->execute(array(
+			":_text" => 'Dental Charting',
 			":VAT_doctor" => $VAT_doctor,
 			":date_timestamp" => $date_timestamp,
 			":quadrant" => $quadrant[$x],
 			":_number" => $number[$x],
+			":description" => '',
 			":measure" => $measure[$x]));
 
-		echo("<p>Row to be added: $sql</p>");
+		echo("<p>Row to be added:</p> <p>{$sql_measure->queryString}</p>");
 
 		if($test == FALSE){
 			$info = $connection->errorInfo();
@@ -73,6 +78,10 @@
 			echo("<p></p>");					
 			echo("<p>Error: {$info[2]}</p>");
 			exit();
+		else
+		{
+			echo("<p>A Measure was succesfully inserted</p>");
+		}
 	}
 	 
 	}
