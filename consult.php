@@ -1,7 +1,7 @@
 
 <html>
 	<body>
-	<h3>All (previous?) appointments for client <?=$_REQUEST['date']?></h3>
+	<h3>All previous appointments:</h3>
 
 		<?php
 			$host = "db.tecnico.ulisboa.pt";
