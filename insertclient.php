@@ -56,6 +56,10 @@ if($test == FALSE){
 	echo("<p>Error: {$info[2]}</p>");
 	exit();
 }
+else
+{
+						echo("<p>A Prescription was succesfully inserte</p>");
+}
 
  $connection = null;
 ?>
