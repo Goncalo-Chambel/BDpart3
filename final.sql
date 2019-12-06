@@ -1,4 +1,4 @@
-USE ist425473;
+USE ist425352;
 SET foreign_key_checks = 0;
 drop TABLE if exists employee;
 drop TABLE if exists phone_number_employee;
@@ -188,7 +188,7 @@ CREATE TABLE consultation_diagnostic(VAT_doctor char(9),
 									 foreign key(VAT_doctor) references consultation(VAT_doctor) ON DELETE CASCADE ON UPDATE CASCADE,
 									 foreign key(date_timestamp) references consultation(date_timestamp) ON DELETE CASCADE ON UPDATE CASCADE,
 									 foreign key(ID) references diagnostic_code(ID),
-									 primary key(VAT_doctor, date_timestamp)
+									 primary key(VAT_doctor, date_timestamp,ID)
 									 );
 
 
