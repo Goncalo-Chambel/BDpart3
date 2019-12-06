@@ -8,6 +8,9 @@
  <p>City: <input type="text" name="city"/></p>
  <p>Zip: <input type="text" name="zip"/></p>
  <p><input type="submit"/></p>
- </form>
+  </form>
+   <form action = "selectclient.php" method = "post">
+  <input type="submit" name = "list" value="Client list">
+</form>
  </body>
  </html>
