@@ -194,7 +194,7 @@
 
 		
 <form action = "searchclient.php">
-  <input type="submit" value="Go to seach client page">
+  <input type="submit" value="Go to search client page">
 </form>
 	</body>
 </html>
