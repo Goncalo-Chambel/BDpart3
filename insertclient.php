@@ -30,21 +30,25 @@ $birth_date = strtotime($birth_date);
 $birth_date = date("Y-m-d", $birth_date);
 
 
-$sql = $connection->prepare("INSERT INTO client VALUES (:VAT, :name, :birth_date, :street, :city, :zip, :gender, 0)");
+$sql_client = $connection->prepare("INSERT INTO client VALUES (:VAT, :name, :birth_date, :street, :city, :zip, :gender, :age)");
 
-if($sql == FALSE){
+if($sql_client == FALSE){
 	$info = $connection->errorInfo();				
 	echo("<p>Error: {$info[2]}</p>");
 	exit();
 }
-$test = $sql->execute(array(
+$test = $sql_client->execute(array(
 	":VAT" => $VAT,
 	":name" => $name,
 	":birth_date" => $birth_date,
 	":street" => $street,
 	":city" => $city,
 	":zip" => $zip,
-	":gender" => $gender));
+	":gender" => $gender,
+	":age" => 0));
+
+echo("<p>Row to be added: $sql_client</p>");
+
 if($test == FALSE){
 	$info = $connection->errorInfo();
 	echo("<h3>Client already in database.</h3>");	

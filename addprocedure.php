@@ -23,34 +23,59 @@
 	$quadrant = $_REQUEST['quadrant'];
 	$number = $_REQUEST['number'];
 	$measure = $_REQUEST['measure'];
-	$nrows = 0;
-	$sql = "INSERT INTO procedure_in_consultation values('Dental Charting','$VAT_doctor', '$date_timestamp', '')";
-	$nrows = $connection->exec($sql);
-	if($nrows == 0){
-		echo "<p>Can't add procedure</p>";
-	}
-	else{
-		echo("<p>Row added: $sql</p>");
-	}
-	echo("<p>Rows Added: $nrows</p>");
 
-	$nrows = 0;
-	$i = 0;
+
+	$sql =$connection->prepare("INSERT INTO procedure_in_consultation values('Dental Charting',:VAT_doctor, :date_timestamp, '')");
+
+	if($sql == FALSE){
+		$info = $connection->errorInfo();				
+		echo("<p>Error: {$info[2]}</p>");
+		exit();
+	}
+	$test = $sql->execute(array(
+		":VAT_doctor" => $VAT_doctor,
+		":date_timestamp" => $date_timestamp));
+
+	echo("<p>Row to be added: $sql</p>");
+	if($test == FALSE){
+		$info = $connection->errorInfo();
+		echo("<h3>This consultation already has one dental charting procedure</h3>");	
+		echo("<p></p>");					
+		echo("<p>Error: {$info[2]}</p>");
+		exit();
+	}
+
+
 	for ($x = 0; $x < sizeof($_REQUEST['quadrant']); $x++) {
 
-	 $sql="INSERT INTO procedure_charting VALUES('Dental Charting','$VAT_doctor','$date_timestamp', $quadrant[$x], $number[$x], '', $measure[$x])";
-	 
-	 $nrows += $connection->exec($sql);
-	 if($nrows + $i == $x){
-	 	echo("<p>Can't add row $sql</p>");
-	 	$i = $i + 1;
-	 }
-	 else
-	 {
-	 	echo("<p>Row added: $sql</p>");
-	 }
+	# $sql=connection->prepare("INSERT INTO procedure_charting VALUES('Dental Charting',:VAT_doctor, :date_timestamp, $quadrant[$x], $number[$x], '', $measure[$x])");
+
+	 	 $sql=connection->prepare("INSERT INTO procedure_charting VALUES('Dental Charting',:VAT_doctor, :date_timestamp, :quadrant, :_number, '', :measure)");
+
+		if($sql == FALSE){
+			$info = $connection->errorInfo();				
+			echo("<p>Error: {$info[2]}</p>");
+			exit();
+		}
+
+		$test = $sql->execute(array(
+			":VAT_doctor" => $VAT_doctor,
+			":date_timestamp" => $date_timestamp,
+			":quadrant" => $quadrant[$x],
+			":_number" => $number[$x],
+			":measure" => $measure[$x]));
+
+		echo("<p>Row to be added: $sql</p>");
+
+		if($test == FALSE){
+			$info = $connection->errorInfo();
+			echo("<h3>This tooth already has a measurement</h3>");	
+			echo("<p></p>");					
+			echo("<p>Error: {$info[2]}</p>");
+			exit();
 	}
-	echo("<p>Rows Added: $nrows</p>");
+	 
+	}
  	$connection = null;
 ?>
 
