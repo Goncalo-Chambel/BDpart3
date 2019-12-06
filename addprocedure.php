@@ -37,7 +37,6 @@
 		":VAT_doctor" => $VAT_doctor,
 		":date_timestamp" => $date_timestamp));
 
-	echo("<p>Row to be added:</p> <p>{$sql_procedure->queryString}</p>");
 	if($test == FALSE){
 		$info = $connection->errorInfo();
 		echo("<h3>This consultation already has one dental charting procedure</h3>");	
@@ -70,7 +69,6 @@
 			":description" => '',
 			":measure" => $measure[$x]));
 
-		echo("<p>Row to be added:</p> <p>{$sql_measure->queryString}</p>");
 
 		if($test == FALSE){
 			$info = $connection->errorInfo();
@@ -78,13 +76,14 @@
 			echo("<p></p>");					
 			echo("<p>Error: {$info[2]}</p>");
 			exit();
+		}
 		else
 		{
 			echo("<p>A Measure was succesfully inserted</p>");
 		}
 	}
 	 
-	}
+	
  	$connection = null;
 ?>
 

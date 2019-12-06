@@ -47,7 +47,6 @@
 			":gender" => $gender,
 			":age" => 0));
 			
-			echo("<p>Row to be added:</p> <p>{$sql_client->queryString}</p>");
 			
 			if($test == FALSE){
 				$info = $connection->errorInfo();
