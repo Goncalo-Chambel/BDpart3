@@ -1,5 +1,3 @@
-
-
 <html>
  <body>
  <form action="availabledoctors.php" method="post">

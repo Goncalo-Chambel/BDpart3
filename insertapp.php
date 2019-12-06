@@ -21,21 +21,31 @@ $VAT_doctor = $_REQUEST['VAT'];
 $date_timestamp = $_REQUEST['date_timestamp'];
 $description = $_REQUEST['description'];
 
+$sql = $connection->prepare("INSERT INTO appointment VALUES (:VAT_doctor, :date_timestamp, :description, :VAT_client)");
 
-echo("Date: $date_timestamp");
-echo "<br>";
-echo("VAT doctor: $VAT_doctor");
-echo "<br>";
-echo("VAT client: $VAT_client");
-echo "<br>";
-echo("Description: $description");
-echo "<br>";
+if($sql == FALSE){
+	$info = $connection->errorInfo();				
+	echo("<p>Error: {$info[2]}</p>");
+	exit();
+}
 
+$test = $sql->execute(array(
+	":VAT_doctor" => $VAT_doctor,
+	":date_timestamp" => $date_timestamp,
+	":description" => $description,
+	":VAT_client" => $VAT_client));
 
-$sql = "INSERT INTO appointment VALUES ('$VAT_doctor', '$date_timestamp', '$description', '$VAT_client')";
-echo("<p>$sql</p>");
-$nrows = $connection->exec($sql);
-echo("<p>Rows inserted: $nrows</p>");
+if ($test == FALSE)
+{
+	$info = $connection->errorInfo();
+	echo("<h3>Appointment is already in the Database</h3>");	
+	echo("<p></p>");					
+	echo("<p>Error: {$info[2]}</p>");
+	exit();
+}else{
+	echo("<p>An appointment was succesfully inserted</p>");
+}
+
  $connection = null;
 ?>
 

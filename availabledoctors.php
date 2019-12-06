@@ -1,5 +1,3 @@
-
-
 <html>
  <body>
  <form action="insertapp.php" method="post">
