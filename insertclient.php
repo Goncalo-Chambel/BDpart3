@@ -55,7 +55,7 @@
 			}
 			else
 			{
-				echo("<p>A Prescription was succesfully inserte</p>");
+				echo("<p>A client was succesfully inserted</p>");
 			}
 			
 			$connection = null;
