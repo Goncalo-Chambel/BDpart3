@@ -1,6 +1,6 @@
 <html>
 	<body>
-		<h3>Create The new Consultation</h3>
+		<h3>All (previous?) appointments for client <?=$_REQUEST['date']?></h3>
 		
 		<?php
 			$host = "db.tecnico.ulisboa.pt";
@@ -31,9 +31,33 @@
 			<p>SOAP_P: <input type=\"text\" name=\"SOAP_P\"/></p>
 			<input type=\"hidden\" name=\"VAT_d\" value=\"{$VAT_d}\">
 			<input type=\"hidden\" name=\"date\" value=\"{$date}\">
-			<p><h4>Select Consultation Assistants:</h4></p>");
+			");
 			
-			$sql_nurse  = "SELECT DISTINCT(VAT_nurse) FROM consultation_assistant";
+			
+			echo("<h4>Insert the diagnostics for the new consultation</h4>
+			<input type=\"hidden\" name=\"VAT_d\" value=\"{$VAT_d}\">
+			<input type=\"hidden\" name=\"date\" value=\"{$date}\">");
+			$sql_diag  = "SELECT * FROM diagnostic_code";
+			$result_diag = $connection->query($sql_diag );
+			if ($result_diag == FALSE)
+			{
+				$info = $connection->errorInfo();
+				echo("<p>Error: {$info[2]}</p>");
+				exit();
+			}
+			echo("<select name=diagnostic >");
+			foreach($result_diag as $row)
+			{
+				$ID = $row["ID"];
+				$description = $row["description"];
+				echo("<p><option value=\"{$ID}\"/>{$description}</p>");
+
+			}
+			echo("</select>");
+			
+			echo("<p><h4>Select Consultation Assistants:</h4></p>");
+			
+			$sql_nurse  = "SELECT DISTINCT(VAT) FROM nurse";
 			$result_nurse = $connection->query($sql_nurse );
 			if ($result_nurse == FALSE)
 			{
@@ -49,56 +73,35 @@
 			
 			echo("<p><h4>Select Medication for each diagnostic:</h4></p>");
 			
-			$diagnostic_code = $_REQUEST['diagnostic_code'];
-			$diagnostics = $_REQUEST['diagnostic_desc'];
-			if(empty($diagnostics))
+
+
+
+					
+			$sql_meds  = "select lab, name, concat(name,\" - \", lab) as med from medication";
+			$result_meds = $connection->query($sql_meds);
+			if ($result_meds == FALSE)
 			{
-				echo("You didn't select any Diagnostics.");
+				$info = $connection->errorInfo();
+				echo("<p>Error: {$info[2]}</p>");
+				exit();
 			}
-			else
 			
+			foreach($result_meds as $row)
 			{
+				$med = $row["med"];
+				$lab= $row["lab"];
+				$name= $row["name"];
+				echo("<p><input type='checkbox' name=\"meds[]\" value='{$med}'/>{$med}</p>");
 				
-				$N = count($diagnostic_code);
-				
-				
-				
-				echo("You selected $N Diagnostic(s): ");
-				
-				for($i=0; $i < $N; $i++)
-				
-				{
-					echo("<p><h5>For the selected diagnostic: {$diagnostics[intval($diagnostic_code[$i]) -1]}</h5></p>");
+			}
+			
 					
-					
-					$sql_meds  = "select lab, name, concat(name,\" - \", lab) as med from medication";
-					$result_meds = $connection->query($sql_meds);
-					if ($result_meds == FALSE)
-					{
-						$info = $connection->errorInfo();
-						echo("<p>Error: {$info[2]}</p>");
-						exit();
-					}
-					foreach($result_meds as $row)
-					{
-						$med = $row["med"];
-						$lab= $row["lab"];
-						$name= $row["name"];
-						echo("<p><input type='checkbox' name=\"meds_{$i}[]\" value='{$med}'/>{$med}</p>");
-						
-					}
-					
-				}
 				
-				for($i=0; $i < $N; $i++)	
-			{
-					echo("<input type=\"hidden\" name=\"diagnostic_desc[]\" value=\"{$diagnostics[$i]}\"/>");
-					echo("<input type=\"hidden\" name=\"diagnostic_code[]\" value=\"{$diagnostic_code[$i]}\"/>");
-				}
-				echo("<input type=\"hidden\" name=\"N_diagnostics\" value=\"{$N}\"/>");
+				
+				
 				
 				echo("<p><input type=\"submit\" value=\"Submit\"/></p>");
-			}
+			
 				
 			?>
 		</body>
